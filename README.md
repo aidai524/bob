@@ -1,36 +1,55 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# AWS Bedrock Agent Chat Interface
 
-## Getting Started
+A Next.js application that integrates with AWS Bedrock Agent to provide a chat interface.
 
-First, run the development server:
+## Features
+
+- Real-time chat interface with AWS Bedrock Agent
+- Markdown rendering support
+- Streaming response handling
+- Error handling and logging
+
+## Prerequisites
+
+- Node.js 16+
+- AWS Account with Bedrock access
+- Configured AWS Bedrock Agent
+
+## Environment Variables
+
+Create a `.env.local` file with the following variables:
+
+```env
+AWS_REGION=your-region
+AWS_ACCESS_KEY_ID=your-access-key
+AWS_SECRET_ACCESS_KEY=your-secret-key
+BEDROCK_AGENT_ID=your-agent-id
+BEDROCK_AGENT_ALIAS_ID=your-agent-alias-id
+```
+
+## Installation
 
 ```bash
+# Install dependencies
+npm install
+
+# Run development server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
+
+## Usage
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Development
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+The project uses:
+- Next.js 14
+- TypeScript
+- AWS SDK v3
+- TailwindCSS
+- Shadcn UI
 
-## Learn More
+## License
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+MIT
