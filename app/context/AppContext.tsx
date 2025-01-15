@@ -27,15 +27,18 @@ interface AppContextType {
   setCurrentConversation: (conversation: Conversation | null) => void;
   isLoading: boolean;
   setIsLoading: (isLoading: boolean) => void;
+  pendingMessage: string | null;
+  setPendingMessage: (message: string | null) => void;
 }
 
-const AppContext = createContext<AppContextType | undefined>(undefined);
+export const AppContext = createContext<AppContextType | undefined>(undefined);
 
 export function AppProvider({ children }: { children: React.ReactNode }) {
   const [messages, setMessages] = useState<Message[]>([]);
   const [conversations, setConversations] = useState<Conversation[]>([]);
   const [currentConversation, setCurrentConversation] = useState<Conversation | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [pendingMessage, setPendingMessage] = useState<string | null>(null);
 
   return (
     <AppContext.Provider
@@ -48,6 +51,8 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
         setCurrentConversation,
         isLoading,
         setIsLoading,
+        pendingMessage,
+        setPendingMessage,
       }}
     >
       {children}

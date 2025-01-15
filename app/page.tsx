@@ -5,6 +5,7 @@ import { MessageCircle, Sparkles, Zap, Send } from 'lucide-react';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import { useApp } from './context/AppContext';
 
 const popularPrompts = [
   {
@@ -22,73 +23,20 @@ const popularPrompts = [
 ];
 
 export default function Home() {
-  const [input, setInput] = useState('');
+  const { setPendingMessage } = useApp();
   const router = useRouter();
   const supabase = createClientComponentClient();
+  const [input, setInput] = useState('');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!input.trim()) return;
 
-    try {
-      // 1. 创建新对话
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) return;
-
-      const { data: conversation, error: convError } = await supabase
-        .from('conversations')
-        .insert([
-          { user_id: user.id, title: input.slice(0, 50) }
-        ])
-        .select()
-        .single();
-
-      if (convError) throw convError;
-
-      // 2. 创建第一条消息
-      const { error: msgError } = await supabase
-        .from('messages')
-        .insert([
-          {
-            conversation_id: conversation.id,
-            content: input,
-            role: 'user'
-          }
-        ]);
-
-      if (msgError) throw msgError;
-
-      // 3. 获取 AI 响应
-      const response = await fetch('/api/bedrock', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ 
-          message: input,
-          conversationId: conversation.id
-        }),
-      });
-
-      if (!response.ok) throw new Error('Failed to get AI response');
-
-      const data = await response.json();
-
-      // 4. 保存 AI 响应
-      const { error: aiError } = await supabase
-        .from('messages')
-        .insert([{
-          conversation_id: conversation.id,
-          content: data.response,
-          role: 'assistant'
-        }]);
-
-      if (aiError) throw aiError;
-
-      // 5. 跳转到新对话
-      router.push(`/chat/${conversation.id}`);
-    } catch (error) {
-      console.error('Error creating conversation:', error);
-      alert('创建对话失败，请重试');
-    }
+    // 保存消息到上下文
+    setPendingMessage(input.trim());
+    
+    // 立即跳转到聊天页
+    router.push('/chat/new');
   };
 
   return (
@@ -102,27 +50,28 @@ export default function Home() {
           {/* 对话框 */}
           <div className="bg-white rounded-2xl shadow-lg p-6 mb-8">
             <form onSubmit={handleSubmit}>
-              <textarea
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                placeholder="输入你想问的任何问题..."
-                className="w-full px-4 py-4 border rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 min-h-[120px] resize-none"
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter' && !e.shiftKey) {
-                    e.preventDefault();
-                    if (input.trim()) {
-                      handleSubmit(e);
+              <div className="relative">
+                <textarea
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                  placeholder="输入你想问的任何问题... (按 Enter 发送，Shift + Enter 换行)"
+                  className="w-full px-4 py-4 pr-32 border rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 min-h-[120px] resize-none"
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' && !e.shiftKey) {
+                      e.preventDefault();
+                      if (input.trim()) {
+                        handleSubmit(e);
+                      }
                     }
-                  }
-                }}
-              />
-              <div className="flex justify-end mt-2">
+                  }}
+                />
                 <button
                   type="submit"
-                  className="px-8 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 disabled:opacity-50 whitespace-nowrap"
                   disabled={!input.trim()}
+                  className="absolute bottom-3 right-3 p-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 disabled:opacity-50 transition-colors"
+                  title="发送"
                 >
-                  发送
+                  <Send size={20} />
                 </button>
               </div>
             </form>
