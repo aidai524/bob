@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, Suspense } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useApp } from './context/AppContext';
 import { Navigation } from './components/Navigation';
@@ -23,7 +23,7 @@ const popularPrompts = [
   }
 ];
 
-export default function HomePage() {
+export default function Page() {
   const router = useRouter();
   const { setPendingMessage } = useApp();
   const [input, setInput] = useState('');
@@ -111,12 +111,4 @@ export default function HomePage() {
       <Footer />
     </div>
   );
-}
-
-export function Page() {
-  return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <HomePage />
-    </Suspense>
-  );
-}
+} 
