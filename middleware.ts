@@ -6,13 +6,12 @@ export async function middleware(req: NextRequest) {
   const res = NextResponse.next();
   const supabase = createMiddlewareClient({ req, res });
 
-  // 刷新 session
   const {
     data: { session },
   } = await supabase.auth.getSession();
 
   // 需要认证的路由
-  const protectedRoutes = ['/chat', '/profile'];
+  const protectedRoutes = ['/chat', '/profile', '/(protected)'];
   const isProtectedRoute = protectedRoutes.some(route => 
     req.nextUrl.pathname.startsWith(route)
   );
