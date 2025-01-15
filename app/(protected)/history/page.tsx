@@ -6,7 +6,7 @@ import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { Search, Clock, CalendarDays, Calendar, MessageSquare } from 'lucide-react';
 import { format, isToday, isThisWeek, isThisMonth, isThisYear } from 'date-fns';
 import { zhCN } from 'date-fns/locale';
-import { Sidebar } from '@/app/components/Sidebar';
+import { Navigation } from '@/app/components/Navigation';
 
 interface Conversation {
   id: string;
@@ -120,8 +120,7 @@ export default function HistoryPage() {
 
   return (
     <div className="relative min-h-screen bg-gray-50">
-      {/* 侧边栏 */}
-      <Sidebar />
+      <Navigation />
       
       {/* 主要内容区域 */}
       <main className="ml-24 p-8">

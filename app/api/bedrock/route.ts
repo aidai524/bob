@@ -81,7 +81,7 @@ export async function POST(request: Request) {
             } else {
               responseText = jsonStr;
             }
-          } catch (e) {
+          } catch {
             responseText = jsonStr;
           }
         } else {
@@ -122,19 +122,14 @@ export async function POST(request: Request) {
     });
 
   } catch (error) {
-    console.error('Error details:', {
-      name: error.name,
-      message: error.message,
-      stack: error.stack,
+    if (error instanceof Error) {
+      console.error('Error:', error);
+      return new Response(JSON.stringify({ error: error.message }), {
+        status: 500,
+      });
+    }
+    return new Response(JSON.stringify({ error: 'Unknown error occurred' }), {
+      status: 500,
     });
-
-    return NextResponse.json(
-      {
-        error: 'Failed to process request',
-        details: error.message,
-        type: error.name,
-      },
-      { status: 500 }
-    );
   }
 }
