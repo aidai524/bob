@@ -69,15 +69,15 @@ export default function HistoryPage() {
       let group = '';
 
       if (isToday(date)) {
-        group = '今天';
+        group = 'Today';
       } else if (isThisWeek(date)) {
-        group = '本周';
+        group = 'This Week';
       } else if (isThisMonth(date)) {
-        group = '本月';
+        group = 'This Month';
       } else if (isThisYear(date)) {
-        group = '今年';
+        group = 'This Year';
       } else {
-        group = '更早';
+        group = 'Earlier';
       }
 
       if (!acc[group]) {
@@ -105,13 +105,13 @@ export default function HistoryPage() {
   // 获取分组图标
   const getGroupIcon = (group: string) => {
     switch (group) {
-      case '今天':
+      case 'Today':
         return <Clock className="w-4 h-4" />;
-      case '本周':
+      case 'This Week':
         return <CalendarDays className="w-4 h-4" />;
-      case '本月':
-      case '今年':
-      case '更早':
+      case 'This Month':
+      case 'This Year':
+      case 'Earlier':
         return <Calendar className="w-4 h-4" />;
       default:
         return <Clock className="w-4 h-4" />;
@@ -125,13 +125,13 @@ export default function HistoryPage() {
       {/* 主要内容区域 */}
       <main className="p-8">
         <div className="max-w-3xl mx-auto">
-          <h1 className="text-2xl font-bold mb-8">历史会话</h1>
+          <h1 className="text-2xl font-bold mb-8">Chat History</h1>
           
           {/* 搜索框 */}
           <div className="relative mb-8">
             <input
               type="text"
-              placeholder="搜索历史会话..."
+              placeholder="Search chat history..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="w-full px-4 py-3 pl-12 border rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500"

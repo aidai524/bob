@@ -16,7 +16,7 @@ export function PasswordChange() {
     e.preventDefault();
     
     if (newPassword !== confirmPassword) {
-      setError('新密码不匹配');
+      setError('New passwords do not match');
       return;
     }
 
@@ -38,7 +38,7 @@ export function PasswordChange() {
       setConfirmPassword('');
     } catch (error) {
       console.error('Error updating password:', error);
-      setError(error instanceof Error ? error.message : '更新密码失败');
+      setError(error instanceof Error ? error.message : 'Failed to update password');
     } finally {
       setLoading(false);
     }
@@ -46,7 +46,7 @@ export function PasswordChange() {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
-      <h3 className="text-lg font-medium">修改密码</h3>
+      <h3 className="text-lg font-medium">Change Password</h3>
       
       {error && (
         <div className="bg-red-50 text-red-700 p-3 rounded">
@@ -56,13 +56,13 @@ export function PasswordChange() {
       
       {success && (
         <div className="bg-green-50 text-green-700 p-3 rounded">
-          密码修改成功
+          Password updated successfully
         </div>
       )}
 
       <div>
         <label className="block text-sm font-medium text-gray-700">
-          当前密码
+          Current Password
         </label>
         <input
           type="password"
@@ -75,7 +75,7 @@ export function PasswordChange() {
 
       <div>
         <label className="block text-sm font-medium text-gray-700">
-          新密码
+          New Password
         </label>
         <input
           type="password"
@@ -88,7 +88,7 @@ export function PasswordChange() {
 
       <div>
         <label className="block text-sm font-medium text-gray-700">
-          确认新密码
+          Confirm New Password
         </label>
         <input
           type="password"
@@ -104,7 +104,7 @@ export function PasswordChange() {
         disabled={loading}
         className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50"
       >
-        {loading ? '更新中...' : '更新密码'}
+        {loading ? 'Updating...' : 'Update Password'}
       </button>
     </form>
   );

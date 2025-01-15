@@ -23,7 +23,7 @@ export function Sidebar() {
       const { data: conversation, error } = await supabase
         .from('conversations')
         .insert([
-          { user_id: user.id, title: '新对话' }
+          { user_id: user.id, title: 'New Chat' }
         ])
         .select()
         .single();
@@ -34,7 +34,7 @@ export function Sidebar() {
       router.push(`/chat/${conversation.id}`);
     } catch (error) {
       console.error('Error creating new chat:', error);
-      alert('创建对话失败，请重试');
+      alert('Failed to create chat, please try again');
     }
   };
 
@@ -75,7 +75,7 @@ export function Sidebar() {
       <Link
         href="/history"
         className="p-3 text-gray-500 hover:text-indigo-600 hover:bg-indigo-50 rounded-xl transition-colors"
-        title="历史会话"
+        title="Chat History"
       >
         <History size={24} />
       </Link>

@@ -10,7 +10,7 @@ export function MessageList() {
   if (!messages.length) {
     return (
       <div className="flex-1 flex items-center justify-center text-gray-500">
-        正在等待 AI 响应...
+        Waiting for AI response...
       </div>
     );
   }
