@@ -18,8 +18,8 @@ const popularPrompts = [
     text: "What is Uniswap"
   },
   {
-    icon: <Zap className="w-5 h-5" />,
-    text: "Latest news about OpenAI Sora"
+    icon: <Bot className="w-5 h-5" />,
+    text: "Hello Bot"
   }
 ];
 
@@ -35,6 +35,15 @@ export default function Page() {
 
     // Save message to context
     setPendingMessage(input.trim());
+    
+    // Navigate to chat page
+    router.push('/chat/new');
+  };
+
+  // Handle popular prompt click
+  const handlePromptClick = (promptText: string) => {
+    // Save message to context
+    setPendingMessage(promptText);
     
     // Navigate to chat page
     router.push('/chat/new');
@@ -96,6 +105,7 @@ export default function Page() {
             {popularPrompts.map((prompt, index) => (
               <button
                 key={index}
+                onClick={() => handlePromptClick(prompt.text)}
                 className="w-full flex items-center gap-3 px-4 py-3 bg-white rounded-xl shadow hover:shadow-md transition-shadow text-left"
               >
                 <div className="text-indigo-500">
