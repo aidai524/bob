@@ -44,7 +44,7 @@ export default function Page() {
     <div className="relative min-h-screen bg-gray-50 flex flex-col">
       <Navigation />
       
-      <main className="ml-24 flex-1">
+      <main className="flex-1">
         <div className="max-w-3xl mx-auto p-6">
           {/* Welcome section */}
           <div className="flex flex-col items-center mb-8 mt-40">

@@ -123,7 +123,7 @@ export default function HistoryPage() {
       <Navigation />
       
       {/* 主要内容区域 */}
-      <main className="ml-24 p-8">
+      <main className="p-8">
         <div className="max-w-3xl mx-auto">
           <h1 className="text-2xl font-bold mb-8">历史会话</h1>
           

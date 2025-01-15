@@ -84,7 +84,7 @@ export default function ProfilePage() {
     <div className="relative min-h-screen bg-gray-50">
       <Navigation />
       
-      <main className="ml-24">
+      <main>
         <div className="max-w-2xl mx-auto p-6 space-y-8">
           <div className="bg-white p-6 rounded-lg shadow">
             <h2 className="text-2xl font-bold mb-6">个人资料</h2>

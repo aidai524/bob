@@ -343,7 +343,7 @@ export default function ChatPage() {
       <Navigation />
       
       {/* 主要内容区域 */}
-      <main className="ml-24 flex flex-col h-screen">
+      <main className="flex flex-col h-screen">
         {/* 标题栏 */}
         <div className="border-b bg-white">
           <div className="max-w-3xl mx-auto px-4 py-4">
