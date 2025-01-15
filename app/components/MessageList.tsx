@@ -1,48 +1,61 @@
 'use client';
 
-import { useConversation } from '@/app/context/ConversationContext';
+import { useChat } from '@/app/context/ChatContext';
 import { MarkdownRenderer } from './MarkdownRenderer';
-import { UserCircle, Bot } from 'lucide-react';
+import { UserCircle } from 'lucide-react';
 
 export function MessageList() {
-  const { messages, currentConversation } = useConversation();
+  const { messages, currentConversation } = useChat();
 
-  if (!currentConversation) {
+  if (!messages.length) {
     return (
       <div className="flex-1 flex items-center justify-center text-gray-500">
-        选择或创建一个对话开始聊天
+        正在等待 AI 响应...
       </div>
     );
   }
 
   return (
-    <div className="flex-1 overflow-y-auto p-4 space-y-4">
+    <div className="flex-1 overflow-y-auto p-4 space-y-4 max-w-3xl mx-auto">
       {messages.map((message) => (
         <div
           key={message.id}
-          className={`flex gap-3 ${
+          className={`flex items-start gap-4 ${
             message.role === 'user' ? 'justify-end' : 'justify-start'
           }`}
         >
           {message.role === 'assistant' && (
-            <div className="flex-shrink-0">
-              <Bot className="h-8 w-8 text-gray-600" />
+            <div className="w-8 h-8 rounded-full bg-indigo-600 flex items-center justify-center flex-shrink-0">
+              <span className="text-white text-sm font-bold">AI</span>
             </div>
           )}
-
+          
           <div
-            className={`rounded-lg p-4 max-w-[80%] ${
-              message.role === 'user'
-                ? 'bg-blue-500 text-white'
-                : 'bg-gray-100 dark:bg-gray-800'
+            className={`flex flex-col max-w-[80%] ${
+              message.role === 'user' ? 'items-end' : 'items-start'
             }`}
           >
-            <MarkdownRenderer content={message.content} />
+            <div
+              className={`rounded-lg px-4 py-2 ${
+                message.role === 'user'
+                  ? 'bg-indigo-600 text-white'
+                  : 'bg-gray-100'
+              }`}
+            >
+              {message.role === 'assistant' ? (
+                <MarkdownRenderer content={message.content} />
+              ) : (
+                <div className="whitespace-pre-wrap">{message.content}</div>
+              )}
+            </div>
+            <span className="text-xs text-gray-500 mt-1">
+              {new Date(message.created_at).toLocaleTimeString()}
+            </span>
           </div>
 
           {message.role === 'user' && (
-            <div className="flex-shrink-0">
-              <UserCircle className="h-8 w-8 text-blue-500" />
+            <div className="w-8 h-8 rounded-full overflow-hidden flex-shrink-0">
+              <UserCircle className="w-8 h-8 text-gray-400" />
             </div>
           )}
         </div>

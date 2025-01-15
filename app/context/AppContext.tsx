@@ -18,7 +18,7 @@ interface Conversation {
   user_id: string;
 }
 
-interface ChatContextType {
+interface AppContextType {
   messages: Message[];
   setMessages: (messages: Message[]) => void;
   conversations: Conversation[];
@@ -27,18 +27,21 @@ interface ChatContextType {
   setCurrentConversation: (conversation: Conversation | null) => void;
   isLoading: boolean;
   setIsLoading: (isLoading: boolean) => void;
+  pendingMessage: string | null;
+  setPendingMessage: (message: string | null) => void;
 }
 
-const ChatContext = createContext<ChatContextType | undefined>(undefined);
+export const AppContext = createContext<AppContextType | undefined>(undefined);
 
-export function ChatProvider({ children }: { children: React.ReactNode }) {
+export function AppProvider({ children }: { children: React.ReactNode }) {
   const [messages, setMessages] = useState<Message[]>([]);
   const [conversations, setConversations] = useState<Conversation[]>([]);
   const [currentConversation, setCurrentConversation] = useState<Conversation | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [pendingMessage, setPendingMessage] = useState<string | null>(null);
 
   return (
-    <ChatContext.Provider
+    <AppContext.Provider
       value={{
         messages,
         setMessages,
@@ -48,17 +51,19 @@ export function ChatProvider({ children }: { children: React.ReactNode }) {
         setCurrentConversation,
         isLoading,
         setIsLoading,
+        pendingMessage,
+        setPendingMessage,
       }}
     >
       {children}
-    </ChatContext.Provider>
+    </AppContext.Provider>
   );
 }
 
-export function useChat() {
-  const context = useContext(ChatContext);
+export function useApp() {
+  const context = useContext(AppContext);
   if (context === undefined) {
-    throw new Error('useChat must be used within a ChatProvider');
+    throw new Error('useApp must be used within an AppProvider');
   }
   return context;
 } 
