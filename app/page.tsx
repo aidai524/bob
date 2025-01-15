@@ -1,60 +1,74 @@
 'use client';
 
-import { HomeSidebar } from './components/HomeSidebar';
-import { MessageCircle, Sparkles, Zap, Send } from 'lucide-react';
-import { useState } from 'react';
+import { useState, Suspense } from 'react';
 import { useRouter } from 'next/navigation';
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { useApp } from './context/AppContext';
+import { Navigation } from './components/Navigation';
+import { Footer } from './components/Footer';
+import { MessageCircle, Sparkles, Zap, Send, Bot } from 'lucide-react';
 
+// Popular conversation starters
 const popularPrompts = [
   {
     icon: <Sparkles className="w-5 h-5" />,
-    text: "中本聪是谁"
+    text: "Who is Satoshi Nakamoto"
   },
   {
     icon: <MessageCircle className="w-5 h-5" />,
-    text: "风吹上的阳坛布雨干什么用的"
+    text: "What is Uniswap"
   },
   {
     icon: <Zap className="w-5 h-5" />,
-    text: "OpenAI现场生成模型Sora正式上线"
+    text: "Latest news about OpenAI Sora"
   }
 ];
 
-export default function Home() {
-  const { setPendingMessage } = useApp();
+export default function HomePage() {
   const router = useRouter();
-  const supabase = createClientComponentClient();
+  const { setPendingMessage } = useApp();
   const [input, setInput] = useState('');
 
+  // Handle form submission and navigate to chat
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!input.trim()) return;
 
-    // 保存消息到上下文
+    // Save message to context
     setPendingMessage(input.trim());
     
-    // 立即跳转到聊天页
+    // Navigate to chat page
     router.push('/chat/new');
   };
 
   return (
-    <div className="relative min-h-screen bg-gray-50">
-      {/* 侧边栏 */}
-      <HomeSidebar />
+    <div className="relative min-h-screen bg-gray-50 flex flex-col">
+      <Navigation />
       
-      {/* 主要内容区域 */}
-      <main className="ml-24 p-8">
-        <div className="max-w-3xl mx-auto">
-          {/* 对话框 */}
-          <div className="bg-white rounded-2xl shadow-lg p-6 mb-8">
+      <main className="ml-24 flex-1">
+        <div className="max-w-3xl mx-auto p-6">
+          {/* Welcome section */}
+          <div className="flex flex-col items-center mb-8 mt-40">
+            <div className="flex items-center h-16 gap-4 mb-3">
+              <div className="flex items-center gap-2">
+                <Bot className="w-8 h-8 text-indigo-600" />
+                <h1 className="text-xl font-medium text-gray-800 flex items-center h-full">
+                  I am BOB AI, nice to meet you!
+                </h1>
+              </div>
+            </div>
+            <p className="text-gray-500 text-xs">
+              I can help you with WEB3 consulting, check cryptocurrency prices, and even assist with transactions!
+            </p>
+          </div>
+
+          {/* Input section */}
+          <div className="bg-white rounded-2xl shadow-sm p-6">
             <form onSubmit={handleSubmit}>
               <div className="relative">
                 <textarea
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
-                  placeholder="输入你想问的任何问题... (按 Enter 发送，Shift + Enter 换行)"
+                  placeholder="Ask me anything... (Press Enter to send, Shift + Enter for new line)"
                   className="w-full px-4 py-4 pr-32 border rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 min-h-[120px] resize-none"
                   onKeyDown={(e) => {
                     if (e.key === 'Enter' && !e.shiftKey) {
@@ -69,7 +83,7 @@ export default function Home() {
                   type="submit"
                   disabled={!input.trim()}
                   className="absolute bottom-3 right-3 p-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 disabled:opacity-50 transition-colors"
-                  title="发送"
+                  title="Send"
                 >
                   <Send size={20} />
                 </button>
@@ -77,7 +91,7 @@ export default function Home() {
             </form>
           </div>
 
-          {/* 热门对话 */}
+          {/* Popular prompts */}
           <div className="space-y-3">
             {popularPrompts.map((prompt, index) => (
               <button
@@ -93,6 +107,16 @@ export default function Home() {
           </div>
         </div>
       </main>
+
+      <Footer />
     </div>
+  );
+}
+
+export function Page() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <HomePage />
+    </Suspense>
   );
 }

@@ -1,9 +1,9 @@
 'use client';
 
-import { createContext, useContext, useState, useEffect } from 'react';
+import { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import { useAuth } from './AuthContext';
 import { supabase } from '@/lib/supabase';
-import type { Conversation, Message } from '@/types/database';
+import type { Conversation, Message } from '@/app/types';
 
 interface ConversationContextType {
   conversations: Conversation[];
@@ -26,28 +26,26 @@ export function ConversationProvider({ children }: { children: React.ReactNode }
   const [loading, setLoading] = useState(true);
 
   // 加载用户的所有对话
-  useEffect(() => {
-    if (user) {
-      loadConversations();
-    }
-  }, [user]);
-
-  const loadConversations = async () => {
+  const loadConversations = useCallback(async () => {
+    if (!user) return;
+    
     try {
       const { data, error } = await supabase
         .from('conversations')
         .select('*')
-        .eq('user_id', user?.id)
-        .order('updated_at', { ascending: false });
+        .eq('user_id', user.id)
+        .order('created_at', { ascending: false });
 
       if (error) throw error;
       setConversations(data || []);
     } catch (error) {
       console.error('Error loading conversations:', error);
-    } finally {
-      setLoading(false);
     }
-  };
+  }, [supabase, user]);
+
+  useEffect(() => {
+    loadConversations();
+  }, [loadConversations]);
 
   // 加载特定对话的消息
   const loadMessages = async (conversationId: string) => {
