@@ -24,7 +24,7 @@ export function Navbar() {
                   href="/chat"
                   className="text-gray-700 hover:text-gray-900"
                 >
-                  聊天
+                  Chat
                 </Link>
                 <Link
                   href="/profile"
@@ -44,7 +44,7 @@ export function Navbar() {
                 href="/auth/login"
                 className="text-gray-700 hover:text-gray-900"
               >
-                登录
+                Login
               </Link>
             )}
           </div>

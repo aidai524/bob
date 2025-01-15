@@ -85,7 +85,7 @@ export function ConversationList() {
         <div className="relative">
           <input
             type="text"
-            placeholder="搜索对话..."
+            placeholder="Search conversations..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
@@ -128,7 +128,7 @@ export function ConversationList() {
                 <div className="absolute right-0 mt-1 w-48 bg-white rounded-lg shadow-lg z-50 py-1">
                   <button
                     onClick={() => {
-                      const newTitle = prompt('请输入新的标题', conv.title);
+                      const newTitle = prompt('Enter new title', conv.title);
                       if (newTitle) {
                         renameConversation(conv.id, newTitle);
                       }
@@ -136,18 +136,18 @@ export function ConversationList() {
                     }}
                     className="w-full text-left px-4 py-2 hover:bg-gray-50 text-sm text-gray-700"
                   >
-                    重命名
+                    Rename
                   </button>
                   <button
                     onClick={() => {
-                      if (confirm('确定要删除这个对话吗？')) {
+                      if (confirm('Are you sure you want to delete this conversation?')) {
                         deleteConversation(conv.id);
                       }
                       setIsMenuOpen(null);
                     }}
                     className="w-full text-left px-4 py-2 hover:bg-gray-50 text-sm text-red-500"
                   >
-                    删除
+                    Delete
                   </button>
                 </div>
               )}

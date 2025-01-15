@@ -49,7 +49,7 @@ export function ChatInput() {
         type="text"
         value={message}
         onChange={(e) => setMessage(e.target.value)}
-        placeholder="输入消息..."
+        placeholder="Type your message..."
         className="flex-1 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
         disabled={loading}
       />

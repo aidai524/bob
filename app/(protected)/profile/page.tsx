@@ -11,6 +11,7 @@ import { Profile } from '@/app/types';
 export default function ProfilePage() {
   const { user } = useAuth();
   const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
   const [profile, setProfile] = useState<Profile>({
     id: '',
     username: '',
@@ -52,12 +53,13 @@ export default function ProfilePage() {
     }
   }, [user, loadProfile]);
 
-  const updateProfile = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     try {
       setLoading(true);
       setError(null);
+      setSuccess(false);
 
       const { error } = await supabase
         .from('profiles')
@@ -69,10 +71,10 @@ export default function ProfilePage() {
         });
 
       if (error) throw error;
-      alert('个人资料已更新');
+      setSuccess(true);
     } catch (error) {
       console.error('Error updating profile:', error);
-      setError('更新个人资料失败');
+      setError('Failed to update profile');
     } finally {
       setLoading(false);
     }
@@ -84,62 +86,64 @@ export default function ProfilePage() {
     <div className="relative min-h-screen bg-gray-50">
       <Navigation />
       
-      <main className="ml-24">
-        <div className="max-w-2xl mx-auto p-6 space-y-8">
+      <main className="p-8 flex-1">
+        <div className="max-w-3xl mx-auto space-y-6">
           <div className="bg-white p-6 rounded-lg shadow">
-            <h2 className="text-2xl font-bold mb-6">个人资料</h2>
+            <h2 className="text-xl font-semibold mb-4">Profile</h2>
             
             {error && (
-              <div className="mb-4 p-4 bg-red-50 text-red-700 rounded-md">
+              <div className="mb-4 p-4 text-red-700 bg-red-100 rounded-md">
                 {error}
               </div>
             )}
+            
+            {success && (
+              <div className="mb-4 p-4 text-green-700 bg-green-100 rounded-md">
+                Profile updated successfully
+              </div>
+            )}
 
-            <div className="mb-8">
-              <AvatarUpload
-                uid={user.id}
-                url={profile.avatar_url}
-                onUpload={(url) => {
-                  setProfile({ ...profile, avatar_url: url });
-                }}
-              />
-            </div>
-
-            <form onSubmit={updateProfile} className="space-y-6">
+            <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label htmlFor="username" className="block text-sm font-medium text-gray-700 mb-2">
-                  用户名
-                </label>
+                <label className="block text-sm font-medium text-gray-700">Avatar</label>
+                <div className="mt-1">
+                  <AvatarUpload
+                    uid={user.id}
+                    url={profile.avatar_url}
+                    onUpload={(url) => {
+                      setProfile({ ...profile, avatar_url: url });
+                    }}
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700">Username</label>
                 <input
                   type="text"
-                  id="username"
                   value={profile.username || ''}
                   onChange={(e) => setProfile({ ...profile, username: e.target.value })}
-                  className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                  placeholder="请输入用户名"
+                  className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
                 />
               </div>
 
               <div>
-                <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
-                  邮箱
-                </label>
+                <label className="block text-sm font-medium text-gray-700">Email</label>
                 <input
                   type="email"
-                  id="email"
                   value={user?.email || ''}
                   readOnly
-                  className="w-full px-4 py-2 border rounded-lg bg-gray-50"
+                  className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm bg-gray-50"
                 />
               </div>
 
-              <div>
+              <div className="flex justify-end">
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors disabled:opacity-50"
+                  className="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50"
                 >
-                  {loading ? '保存中...' : '保存更改'}
+                  {loading ? 'Saving...' : 'Save Changes'}
                 </button>
               </div>
             </form>

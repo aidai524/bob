@@ -343,7 +343,7 @@ export default function ChatPage() {
       <Navigation />
       
       {/* 主要内容区域 */}
-      <main className="ml-24 flex flex-col h-screen">
+      <main className="flex flex-col h-screen">
         {/* 标题栏 */}
         <div className="border-b bg-white">
           <div className="max-w-3xl mx-auto px-4 py-4">
@@ -432,7 +432,7 @@ export default function ChatPage() {
                       <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
                       <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
                     </div>
-                    <span className="text-gray-600">AI 正在思考</span>
+                    <span className="text-gray-600">AI is thinking</span>
                   </div>
                 </div>
               )}
@@ -450,7 +450,7 @@ export default function ChatPage() {
                 <textarea
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
-                  placeholder="输入消息... (按 Enter 发送，Shift + Enter 换行)"
+                  placeholder="Type your message... (Press Enter to send, Shift + Enter for new line)"
                   className="w-full px-4 py-4 pr-32 border rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 min-h-[120px] resize-none"
                   disabled={isLoading}
                   onKeyDown={(e) => {
@@ -466,7 +466,7 @@ export default function ChatPage() {
                   type="submit"
                   disabled={isLoading || !input.trim()}
                   className="absolute bottom-3 right-3 p-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 disabled:opacity-50 transition-colors"
-                  title={isLoading ? '发送中...' : '发送'}
+                  title={isLoading ? 'Sending...' : 'Send'}
                 >
                   <Send size={20} className={isLoading ? 'animate-pulse' : ''} />
                 </button>

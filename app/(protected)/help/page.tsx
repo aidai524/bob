@@ -8,7 +8,7 @@ export default function HelpPage() {
     <div className="relative min-h-screen bg-gray-50 flex flex-col">
       <Navigation />
       
-      <main className="ml-24 p-8 flex-1">
+      <main className="p-8 flex-1">
         <div className="max-w-3xl mx-auto">
           <h1 className="text-2xl font-bold mb-8">Help Center</h1>
           

@@ -21,7 +21,7 @@ export function AvatarUpload({ uid, url, onUpload }: AvatarUploadProps) {
       console.log('Starting upload process...');
 
       if (!event.target.files || event.target.files.length === 0) {
-        throw new Error('请选择要上传的图片');
+        throw new Error('Please select an image to upload');
       }
 
       const file = event.target.files[0];
@@ -30,12 +30,12 @@ export function AvatarUpload({ uid, url, onUpload }: AvatarUploadProps) {
       // 检查文件类型
       const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp'];
       if (!allowedTypes.includes(file.type)) {
-        throw new Error('不支持的文件类型。请上传 JPG、PNG、GIF 或 WebP 格式的图片');
+        throw new Error('Unsupported file type. Please upload JPG, PNG, GIF or WebP images');
       }
 
       // 检查文件大小（5MB）
       if (file.size > 5 * 1024 * 1024) {
-        throw new Error('文件大小不能超过 5MB');
+        throw new Error('File size cannot exceed 5MB');
       }
 
       const fileExt = file.type.split('/')[1];
@@ -97,7 +97,7 @@ export function AvatarUpload({ uid, url, onUpload }: AvatarUploadProps) {
       }
 
       onUpload(urlData.publicUrl);
-      alert('头像上传成功！');
+      alert('Avatar uploaded successfully!');
     } catch (error) {
       console.error('Error uploading avatar:', error);
       alert('上传头像失败: ' + (error instanceof Error ? error.message : String(error)));
