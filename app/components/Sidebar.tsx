@@ -1,6 +1,6 @@
 'use client';
 
-import { Home, Plus, User, HelpCircle } from 'lucide-react';
+import { Home, Plus, User, HelpCircle, History } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
@@ -39,7 +39,7 @@ export function Sidebar() {
   };
 
   return (
-    <div className="bg-white rounded-xl shadow-lg flex flex-col items-center py-6 space-y-6 px-3">
+    <div className="fixed left-0 top-0 h-full w-24 bg-white border-r flex flex-col items-center py-8">
       <Link
         href="/"
         className={`p-3 rounded-lg border-2 transition-colors hover:border-indigo-500 hover:text-indigo-500 ${
@@ -70,6 +70,14 @@ export function Sidebar() {
         className="p-3 rounded-lg border-2 border-gray-200 text-gray-500 transition-colors hover:border-indigo-500 hover:text-indigo-500"
       >
         <HelpCircle size={20} />
+      </Link>
+
+      <Link
+        href="/history"
+        className="p-3 text-gray-500 hover:text-indigo-600 hover:bg-indigo-50 rounded-xl transition-colors"
+        title="历史会话"
+      >
+        <History size={24} />
       </Link>
     </div>
   );
