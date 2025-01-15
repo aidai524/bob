@@ -11,7 +11,7 @@ export async function middleware(req: NextRequest) {
   } = await supabase.auth.getSession();
 
   // 需要认证的路由
-  const protectedRoutes = ['/chat', '/profile', '/(protected)'];
+  const protectedRoutes = ['/chat', '/profile', '/protected'];
   const isProtectedRoute = protectedRoutes.some(route => 
     req.nextUrl.pathname.startsWith(route)
   );
@@ -39,14 +39,9 @@ export async function middleware(req: NextRequest) {
 
 export const config = {
   matcher: [
-    /*
-     * Match all request paths except for the ones starting with:
-     * - _next/static (static files)
-     * - _next/image (image optimization files)
-     * - favicon.ico (favicon file)
-     * - public (public files)
-     * - api (API routes)
-     */
-    '/((?!_next/static|_next/image|favicon.ico|public|api).*)',
-  ],
+    '/protected/:path*',
+    '/chat/:path*',
+    '/profile/:path*',
+    '/auth/:path*'
+  ]
 }; 
